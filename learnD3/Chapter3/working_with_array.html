@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Array as Data</title>
+    <link rel="stylesheet" type="text/css" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../lib/d3.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+    var data = [];
+
+    var next = function (x) {
+        return 15 + x * x;
+    }
+
+    var newData = function(){
+        if(data.length > 20){
+            data = [];
+        }
+        data.push(next);
+        return data;
+    }
+
+    function render(){
+        var selections = d3.select('body').selectAll('div')
+                .data(newData);
+
+        selections.enter().append('div').append('span');
+
+        selections.exit().remove();
+
+        selections.attr('class', 'v-bar')
+                .style('height', function(d, i){
+                    return d(i) + 'px';
+                })
+                .select('span')
+                .text(function(d, i){
+                    return d(i);
+                });
+    }
+
+    setInterval(function(){
+        render();
+    }, 1500);
+    render();
+</script>
+
+</body>
+
+</html>
